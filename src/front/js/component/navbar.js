@@ -2,6 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 export const Navbar = () => {
+	// const { store, actions } = useContext(Context);
+	// const [email, setEmail] = useState("");
+	// const [password, setPassword] = useState("");
+	// const navigate = useNavigate();
+
 	return (
 		<nav className="navbar navbar-light bg-light">
 			<div className="container">
@@ -10,7 +15,6 @@ export const Navbar = () => {
 				</Link>
 				<div className="ml-auto">
 					<Link to="/demo">
-						<button className="btn btn-primary">Check the Context in action</button>
 					</Link>
 				</div>
 			</div>

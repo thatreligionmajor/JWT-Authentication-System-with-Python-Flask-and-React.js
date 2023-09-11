@@ -22,3 +22,11 @@ def create_token():
 
     access_token = create_access_token(identity=email) #this is where the token is created, below it is turned into a json object
     return jsonify(access_token=access_token)
+
+# Protect a route with jwt required, which will kick out requests
+# without a valid JWT present.
+@api.route("/hello", methods=["GET"])
+@jwt_required()
+def get_hello():
+    msg = {"message": "Hello from the backend!"}
+    return jsonify(msg)

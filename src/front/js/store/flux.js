@@ -1,6 +1,7 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
+			token: null,
 			message: null,
 			demo: [
 				{
@@ -20,11 +21,59 @@ const getState = ({ getStore, getActions, setStore }) => {
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
 			},
-
+			syncSessionToken: () => {
+				//obtain the value of the token in session storage
+				const token = sessionStorage.getItem("token");
+				//verify that the token has valid information using a conditional, then setStore
+				if(token && token !== "" && token !== undefined) {
+					setStore({token: token})
+				}
+			},
+			login: async (email, password) => {
+				const options = {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify(
+						{
+							email: email,
+							password: password
+						}
+					)
+				}
+				try {
+					const response = await fetch("https://fluffy-pancake-5jpg9v69vqj3759-3001.app.github.dev/api/token", options)
+					if(response.status !==200) {
+						alert("Error! Response code: ", response.status)
+						return false;
+					}
+					const data = await response.json()
+						// console.log("Access token: ", data);
+						sessionStorage.setItem("token", data.access_token);
+						setStore({ token: data.access_token })
+						return true;
+				}
+				catch(error) {
+					console.log("Login error. Please try again.")
+				}
+			},
+			logout: () => {
+				sessionStorage.removeItem("token");
+				setStore({ token: null })
+			},
 			getMessage: async () => {
-				try{
+				const store = getStore();
+
+				const options = {
+					headers: {
+						"Authorization": "Bearer " + store.token
+					},
+				}
+
+				try  {
 					// fetching data from the backend
-					const resp = await fetch(process.env.BACKEND_URL + "/api/hello")
+					const resp = await fetch(process.env.BACKEND_URL + "/api/hello", options)
 					const data = await resp.json()
 					setStore({ message: data.message })
 					// don't forget to return something, that is how the async resolves

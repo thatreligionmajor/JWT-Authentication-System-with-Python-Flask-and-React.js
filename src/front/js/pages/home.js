@@ -1,16 +1,39 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
+import { Link } from "react-router-dom";
 import "../../styles/home.css";
 
 export const Home = () => {
 	const { store, actions } = useContext(Context);
 
+	function handleLogout() {
+		actions.logout();
+	}
+
+	useEffect(() => {
+		actions.getMessage();
+	})
+
 	return (
 		<div className="container text-center mt-5">
-			<input type="test" placeholder="email" onChange={e => setEmail(e.target.value)} value={email}/>
-			<input type="password" placeholder="password" onChange={e => setPassword(e.target.value)} value={password}/>
-			<button onClick={handleLogin}>Login</button>
+			<h1>Welcome Home</h1>
+			<h2>{store.message}</h2>
+			<div>
+				{!store.token ?
+				//Create a link with a button to log in
+				<>
+					<Link to="/login">
+						<button className="btn btn-success">Log In</button>
+					</Link>
+					<Link to="/signup">
+						<button className="btn btn-primary">Sign Up</button>
+					</Link>
+				</>
+				:
+				//create a button to log out
+				<button className="btn btn-warning" onClick={handleLogout}>Logout</button>
+		}
+			</div>
 		</div>
 	);
 };
