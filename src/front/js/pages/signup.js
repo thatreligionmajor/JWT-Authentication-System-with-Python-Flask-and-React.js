@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../../styles/home.css";
 
 export const Signup = () => {
@@ -8,11 +8,7 @@ export const Signup = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState();
-	const navigate = useNavigate();
-
-	// const handleSignup = () => {
-	// 	actions.signup(email, password).then(() => {
-	// 		navigate("/");
+	const navigate = useNavigate()
 
 	function submitRequest() {
 		actions.getUserAdded(email, password)
@@ -48,14 +44,16 @@ export const Signup = () => {
                         onChange={(e) => setPassword(e.target.value)} />
                 </div>
             </div>
-            <button onClick={submitRequest}>Submit</button>
+            <Link to="/login">
+                <button onClick={submitRequest}>Submit</button>
+            </Link>
             {/* disabled={error != null} */}
             <div>
                 {error != null && error}
                 {error != null && <Link to="/login">Login</Link>}
             </div>
 		</div>
-	)
+	);
 };
 
 export default Signup;

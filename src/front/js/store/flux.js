@@ -44,12 +44,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 				try {
 					const response = await fetch("https://musical-meme-764vx7qxr95cr5r9-3001.app.github.dev/api/token", options)
-					if(response.status !==200) {
+					if(response.status !== 200) {
 						alert("Error! Response code: ", response.status)
 						return false;
 					}
 					const data = await response.json()
-						// console.log("Access token: ", data);
+						console.log("Access token: ", data);
 						sessionStorage.setItem("token", data.access_token);
 						setStore({ token: data.access_token })
 						return true;
@@ -60,14 +60,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			logout: () => {
 				sessionStorage.removeItem("token");
+				console.log("You are logged out.")
 				setStore({ token: null })
 			},
 			getUserAdded: async (email, password) => { //changes, need help
+				//const store = getStore();
 				const options = {
-					method: "POST",
+					method: 'POST',
 					headers: {
 						"Content-Type": "application/json",
-						"Authorization": "Bearer YOUR_ACCESS_TOKEN"
+						//"Authorization": "Bearer YOUR_ACCESS_TOKEN"
 					},
 					body: JSON.stringify(
 						{
@@ -77,15 +79,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 					)
 				}
 				try {
-					const response = await fetch (process.env.BACKEND_URL + "signup", options)
+					const response = await fetch(process.env.BACKEND_URL + "api/signup", options)
 					if (response.status !== 200) {
 						alert("Error! Response Code: ", response.status)
 						return false;
 					}
 					const data = await response.json()
 					console.log("From the backend ", data)
-					sessionStorage.setItem("token", data.access_token);
-					setStore({token: data.access_token})
+					// sessionStorage.setItem("token", data.access_token);
+					// setStore({token: data.access_token})
 					return true;
 				}
 				catch (error) {
@@ -94,21 +96,19 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			getMessage: async () => {
 				const store = getStore();
-
 				const options = {
 					headers: {
 						"Authorization": "Bearer " + store.token
 					},
 				}
-
 				try  {
 					// fetching data from the backend
-					const resp = await fetch(process.env.BACKEND_URL + "/api/hello", options)
-					const data = await resp.json()
+					const response = await fetch(process.env.BACKEND_URL + "/api/hello", options)
+					const data = await response.json()
 					setStore({ message: data.message })
 					// don't forget to return something, that is how the async resolves
 					return data;
-				}catch(error){
+				} catch (error) {
 					console.log("Error loading message from backend", error)
 				}
 			},
