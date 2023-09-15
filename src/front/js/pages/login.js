@@ -9,11 +9,18 @@ export const Login = () => {
 	const [password, setPassword] = useState("");
 	const navigate = useNavigate();
 
-	const handleLogin = () => {
-		actions.login(email, password).then(() => {
-			navigate("/");
-		})
-	}
+	const handleLogin = (e) => {
+		e.preventDefault();
+		actions.login(email, password)
+		// .then(() => {
+		// 	navigate("/");
+		// })
+	};
+
+	// replace the .then()
+	if (store.token && store.token !== "" && store.token !== undefined) {
+        navigate("/private");
+    }
 
 	return (
 	<>

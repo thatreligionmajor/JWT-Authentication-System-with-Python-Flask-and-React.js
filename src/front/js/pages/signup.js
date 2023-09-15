@@ -9,10 +9,10 @@ export const Signup = () => {
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState();
 	const navigate = useNavigate()
-
 	function submitRequest() {
 		actions.getUserAdded(email, password)
 	}
+    
 	useEffect(() => {
 		if (store.message != null && store.message != "") {
 			setError(store.message)
@@ -47,7 +47,6 @@ export const Signup = () => {
             <Link to="/login">
                 <button onClick={submitRequest}>Submit</button>
             </Link>
-            {/* disabled={error != null} */}
             <div>
                 {error != null && error}
                 {error != null && <Link to="/login">Login</Link>}
