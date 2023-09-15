@@ -1,5 +1,6 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
+import Signup from "../pages/signup";
 import { Link } from "react-router-dom";
 import "../../styles/home.css";
 

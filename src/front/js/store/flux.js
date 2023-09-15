@@ -43,7 +43,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					)
 				}
 				try {
-					const response = await fetch("https://fluffy-pancake-5jpg9v69vqj3759-3001.app.github.dev/api/token", options)
+					const response = await fetch("https://musical-meme-764vx7qxr95cr5r9-3001.app.github.dev/api/token", options)
 					if(response.status !==200) {
 						alert("Error! Response code: ", response.status)
 						return false;
@@ -61,6 +61,36 @@ const getState = ({ getStore, getActions, setStore }) => {
 			logout: () => {
 				sessionStorage.removeItem("token");
 				setStore({ token: null })
+			},
+			getUserAdded: async (email, password) => { //changes, need help
+				const options = {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						"Authorization": "Bearer YOUR_ACCESS_TOKEN"
+					},
+					body: JSON.stringify(
+						{
+							email: email,
+							password: password,
+						}
+					)
+				}
+				try {
+					const response = await fetch (process.env.BACKEND_URL + "signup", options)
+					if (response.status !== 200) {
+						alert("Error! Response Code: ", response.status)
+						return false;
+					}
+					const data = await response.json()
+					console.log("From the backend ", data)
+					sessionStorage.setItem("token", data.access_token);
+					setStore({token: data.access_token})
+					return true;
+				}
+				catch (error) {
+					console.log("Login error")
+				}
 			},
 			getMessage: async () => {
 				const store = getStore();
