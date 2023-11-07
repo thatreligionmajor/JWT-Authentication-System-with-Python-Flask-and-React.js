@@ -43,7 +43,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					)
 				}
 				try {
-					const response = await fetch("https://musical-meme-764vx7qxr95cr5r9-3001.app.github.dev/api/token", options)
+					const response = await fetch(process.env.BACKEND_URL + "/api/token", options)
 					if(response.status !== 200) {
 						alert("Error! Response code: ", response.status)
 						return false;
