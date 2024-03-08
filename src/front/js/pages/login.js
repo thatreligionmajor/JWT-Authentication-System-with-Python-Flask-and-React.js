@@ -29,7 +29,7 @@ export const Login = () => {
 			"You are logged in with token: " + store.token
 			:
 			<div className="container text-center mt-5">
-				<input type="test" placeholder="email" onChange={e => setEmail(e.target.value)} value={email}/>
+				<input type="text" placeholder="email" onChange={e => setEmail(e.target.value)} value={email}/>
 				<input type="password" placeholder="password" onChange={e => setPassword(e.target.value)} value={password}/>
 				<button onClick={handleLogin}>Login</button>
 			</div>
