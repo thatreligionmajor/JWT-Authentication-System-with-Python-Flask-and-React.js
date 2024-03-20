@@ -91,7 +91,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return true;
 				}
 				catch (error) {
-					console.log("Login error")
+					console.log("Signup error")
 				}
 			},
 			getMessage: async () => {
