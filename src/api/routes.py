@@ -16,9 +16,6 @@ api = Blueprint('api', __name__)
 @api.route("/token", methods=["POST"])
 def create_token():
     email = request.json.get("email", None)
-    # password = request.json.get("password", None)
-    # if email != "test" or password != "test":
-    #     return jsonify({"msg": "Bad email or password"}), 401
 
     access_token = create_access_token(identity=email) #this is where the token is created, below it is turned into a json object
     return jsonify(access_token=access_token)
